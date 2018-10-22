@@ -28,7 +28,7 @@ export default {
   float: right;
 }
 
-.clear::after {
+.clearfix::after {
   content:'';
   display: block;
   clear: both;

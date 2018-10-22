@@ -4,14 +4,18 @@
       <p>我的党建</p>
     </div>
     <div class="user-content">
-      <div class="user-avatar">
+      <div class="user-avatar" v-if="!islogin" @click="handLogin">
         <img src="/static/img/bt_bg.png">
       </div>
-      <div class="no-login">你还没有登录,请登录</div>
+      <div class="user-avatar" v-else>
+        <img :src="avatar">
+      </div>
+      <div class="no-login" v-if="!islogin" @click="handLogin">你还没有登录,请登录</div>
+      <div class="no-login" v-else>{{username}}</div>
     </div>
     <div class="user-list">
       <div class="list-item">
-        <router-link to="/">
+        <router-link to="/information">
           <div class="list-title">
             <img src="/static/img/person.png">
             <p>个人信息</p>
@@ -20,7 +24,7 @@
         </router-link>
       </div>
       <div class="list-item">
-        <router-link to="/">
+        <router-link to="/score">
           <div class="list-title">
             <img src="/static/img/lxjf.png">
             <p>个人量化积分</p>
@@ -46,12 +50,49 @@
           <img src="/static/img/right.png">
         </router-link>
       </div>
+      <div class="btn-logout" v-show="islogin">
+        <mt-button type="danger" style="width:100%" @click="logout">退出登录</mt-button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import { Indicator } from 'mint-ui';
+
+export default {
+  data(){
+    return {
+      avatar:'',
+      username:'',
+      islogin:false,
+    }
+  },
+  methods:{
+    getData(){
+      this.avatar = this.$store.state.userinfo.header
+      this.username = this.$store.state.userinfo.jobRank
+      if(this.avatar != ""){
+        this.islogin = true;
+      }
+    },
+    handLogin(){
+      this.$router.push('/')
+    },
+    logout(){
+      sessionStorage.clear()
+      window.localStorage.clear()
+      this.$router.push('/')
+      Toast({
+            message:"退出成功",
+            duration:1000
+      })
+    }
+  },
+  created(){
+    this.getData()
+  }
+};
 </script>
 
 <style scoped lang="scss">
@@ -108,5 +149,9 @@ export default {};
       line-height: 1.08rem;
     }
   }
+}
+
+.btn-logout {
+  padding: .2rem;
 }
 </style>

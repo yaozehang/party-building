@@ -4,19 +4,21 @@
       <div class="header-left fll">
         <img src="static\img\logo.png" alt="">
       </div>
-      <div class="header-right flr">
+      <div class="header-right flr" v-show="!islogin">
         <router-link to="/">登录</router-link> 
       </div>
     </div>
-    <div class="main-swiper">
-      <swiper :options="swiperOption" style="position: relative; width: 7.5rem;
-      height: 4.6rem;">
+    <div class="main-swiper " style="margin-top: .86rem;">
+      <swiper :options="swiperOption" style="position: relative; 
+      height: 4.6rem" ref="mySwiper">
         <!-- slides -->
-        <swiper-slide v-for="(slide, index) in swiperSlides" :key="index">
-          <img :src="slide.address" >
-          <div class="swiper-bottom">
-            {{slide.text}}
-          </div>          
+        <swiper-slide v-for="(slide, index) in swiperSlides" :key="index" style="height: 4.6rem;">
+          <router-link :to="{name:'newsDetail',params:{id: slide.url}}">
+            <img :src="slide.imgUrl" >
+            <div class="swiper-bottom">
+              {{slide.title}}
+            </div>  
+          </router-link>        
         </swiper-slide>
         <!-- Optional controls -->
         <div class="swiper-pagination" slot="pagination"></div>
@@ -32,7 +34,7 @@
           <img src="/static/img/icon_03.png">
           <div>掌上组织生活</div>
         </router-link>
-        <router-link to="/">
+        <router-link :to="rout">
           <img src="/static/img/icon_05.png">
           <div>党员云互动</div>
         </router-link>
@@ -58,12 +60,12 @@
     <div class="tese">
       <div class="tese-item"></div>
       <div class="tese-item">
-        <a href=""></a>
-        <a href=""></a>
+        <router-link to="/anytimestudy"></router-link>
+        <router-link to="/systembuliding"></router-link>
       </div>
       <div class="tese-item">
-        <a href=""></a>
-        <a href=""></a>
+        <router-link to="/anytimephoto"></router-link>
+        <router-link to="/activity"></router-link>
       </div>
     </div>
   </div>
@@ -72,6 +74,8 @@
 <script>
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import "swiper/dist/css/swiper.css";
+
+var _this = {}
 
 export default {
   components: {
@@ -82,9 +86,9 @@ export default {
     return {
       swiperOption: {
         slidesPerView: 1,
-        spaceBetween: 30,
-        effect: 'fade',
-        loop: true,
+        spaceBetween: 0,
+        // effect: 'fade',
+        loop: false,
         pagination: {
           el: ".swiper-pagination",
           clickable: true
@@ -93,30 +97,71 @@ export default {
           delay: 3000,
           stopOnLastSlide: false,
           disableOnInteraction: false
-        }
+        },
+        observer:true,//修改swiper自己或子元素时，自动初始化swiper 
+        observeParents:false,//修改swiper的父元素时，自动初始化swiper 
+        on:{
+            slideChangeTransitionEnd: function(swiper){ 
+    　　　    _this.$refs.mySwiper.update();  
+    　　　    _this.$refs.mySwiper.swiper.autoplay.start();
+          },
+        },
       },
       swiperSlides: [
-        {
-          address:"/static/img/swiper1.png",
-          text:'参军报国,报国护疆'
-        },
-         {
-           address:"/static/img/swiper2.png",
-           text:'深入开展两学一做'
-         },
-         {
-           address:'/static/img/swiper3.png',
-           text:'党的群众路线'
-         },  
-      ]
+        // {
+        //   imgUrl:"/static/img/swiper1.png",
+        //   title:'讲形势指方向——图解读习近平这次对省部级干部说了啥'
+        // },
+        //  {
+        //    imgUrl:"/static/img/swiper2.png",
+        //    title:'深入开展两学一做'
+        //  },
+        //  {
+        //    imgUrl:'/static/img/swiper3.png',
+        //    title:'党的群众路线'
+        //  },  
+      ],
+      islogin:false,
+      rout:"/",
     };
-  }
+  },
+  methods:{
+    getData(){
+      this.$axios.get('/carousel/carouselList.do').then(res => {
+        this.swiperSlides = res.rows
+      })
+    },
+    login(){
+      if(this.$store.state.userinfo.header != ""){
+        this.islogin = true
+        this.rout = '/cloud'
+      }
+    }
+  },
+  computed: {
+        swiper() {
+         return this.$refs.mySwiper.swiper
+        }
+  },
+  beforeCreate () {
+    _this = this
+  },
+  created(){
+    var _this = this
+    this.login()
+    this.getData()
+  },
 };
 </script>
 
 <style scoped lang="scss">
 .main {
   .main-header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 998;
     height: 1.13rem;
     background-color: #c50206;
   }
@@ -136,12 +181,11 @@ export default {
   }
 
   .main-swiper {
-    width: 7.5rem;
-    height: 4.6rem;
     img {
       display: block;
       width: 100%;
-      height: 100%;
+      min-width: 100%;
+      min-height: 100%
     }
   }
   .swiper-bottom {

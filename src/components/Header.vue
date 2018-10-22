@@ -14,6 +14,11 @@
 
 <style scoped lang="scss">
 .top {
+  z-index: 998;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   height: .86rem;
   background-color: #c50206;
   color: #fff;
@@ -23,7 +28,7 @@
     padding-top: 0.24rem;
   }
   img {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       padding: .17rem;

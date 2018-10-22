@@ -1,11 +1,11 @@
 <template>
   <div class="life w750">
     <Header></Header>
-    <div class="life-img">
+    <div class="life-img" style="margin-top: .86rem;">
       <img src="/static/img/timg.jpg">
     </div>
     <div class="life-icon">
-      <router-link to="/">
+      <router-link to="/study">
         <img src="/static/img/icon1.png">
         政治学习
       </router-link>

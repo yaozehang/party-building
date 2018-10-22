@@ -1,25 +1,74 @@
 <template>
   <div class="login w750">
     <Header></Header>
+    <div style="height: .86rem;"></div>
     <div class="login-icon">
       <img src="/static/img/logo.png">
     </div>
     <form class="login-form">
       <div class="login-input">
-        <input type="text" placeholder="请输入用户名">
+        <input type="text" placeholder="请输入用户名" v-model="formData.id_card">
       </div>
       <div class="login-input">
-        <input type="password" placeholder="请输入密码">
+        <input type="password" placeholder="请输入密码" v-model="formData.password ">
       </div>
       <div class="login-button">
-        <input type="button" value="登录">
+        <input type="button" value="登录" @click="login"> 
       </div>
     </form>
   </div>
 </template>
 
 <script>
-export default {};
+import qs from "qs";
+import { Indicator } from "mint-ui";
+
+export default {
+  data() {
+    return {
+      formData: {
+        id_card: "",
+        password: ""
+      }
+    };
+  },
+  methods: {
+    login() {
+      Indicator.open({
+        text: "登录中...",
+        spinnerType: "fading-circle"
+      });
+      let data = qs.stringify(this.formData);
+      this.$axios
+        .post(`/user/userLogin.do?${data}`, {
+          headers: {
+            "Content-Type":
+              "multipart/form-data; boundary=----WebKitFormBoundaryOrLu35UjaGom0Wmp"
+          }
+        })
+        .then(res => {
+          console.log(res);
+          if (res.code == 1) {
+            let storage = window.localStorage;
+            storage.setItem("token", res.token);
+            this.$store.commit("CHANGE_USERINFO", res.data);
+            Toast({
+              message: res.msg,
+              duration: 1000
+            });
+            this.$router.push("/layout/index");
+            Indicator.close();
+          } else {
+            Toast({
+              message: res.msg,
+              duration: 1000
+            });
+            Indicator.close();
+          }
+        });
+    }
+  }
+};
 </script>
 
 <style scoped lang="scss">
@@ -43,7 +92,7 @@ export default {};
       input {
         display: block;
         width: 100%;
-        padding: 0.24rem 0 0.24rem .12rem;
+        padding: 0.24rem 0 0.24rem 0.12rem;
         border: 1px solid #ff0;
         border-radius: 4px;
         background: #c50206;
@@ -55,19 +104,27 @@ export default {};
       input {
         display: block;
         width: 6.16rem;
-        padding: 0.24rem 0 0.24rem .12rem;
+        padding: 0.24rem 0 0.24rem 0.12rem;
         border-radius: 4px;
-        background: #E3574f;
+        background: #e3574f;
         font-size: 14px;
-        border:none;
+        border: none;
         color: #fff;
       }
     }
   }
 }
 /*placehodel*/
-input:-ms-input-placeholder{color:#fff;}/* Internet Explorer 10+ */ 
-input::-webkit-input-placeholder{color:#fff;}/* WebKit browsers */
-input::-moz-placeholder{color:#fff;}/* Mozilla Firefox 4 to 18 */ 
-input:-moz-placeholder{color:#fff;}/* Mozilla Firefox 19+ */ 
+input:-ms-input-placeholder {
+  color: #fff;
+} /* Internet Explorer 10+ */
+input::-webkit-input-placeholder {
+  color: #fff;
+} /* WebKit browsers */
+input::-moz-placeholder {
+  color: #fff;
+} /* Mozilla Firefox 4 to 18 */
+input:-moz-placeholder {
+  color: #fff;
+} /* Mozilla Firefox 19+ */
 </style>
