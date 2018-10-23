@@ -92,7 +92,8 @@ export default {
       input {
         display: block;
         width: 100%;
-        padding: 0.24rem 0 0.24rem 0.12rem;
+        padding: 0.24rem 0.24rem 0.24rem 0.12rem;
+        box-sizing: border-box;
         border: 1px solid #ff0;
         border-radius: 4px;
         background: #c50206;
@@ -103,8 +104,9 @@ export default {
     .login-button {
       input {
         display: block;
-        width: 6.16rem;
-        padding: 0.24rem 0 0.24rem 0.12rem;
+        width: 100%;
+        padding: 0.24rem 0.24rem 0.24rem 0.12rem;
+        box-sizing: border-box;
         border-radius: 4px;
         background: #e3574f;
         font-size: 14px;

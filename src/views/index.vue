@@ -40,11 +40,11 @@
         </router-link>
       </div>
       <div class="row">
-        <router-link to="/">
+        <router-link to="/build">
           <img src="/static/img/icon_04.png">
           <div>党建一点通</div>
         </router-link>
-        <router-link to="/">
+        <router-link to="/identity">
           <img src="/static/img/icon_06.png">
           <div>党员亮身份</div>
         </router-link>

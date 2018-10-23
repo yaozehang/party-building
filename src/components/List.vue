@@ -24,6 +24,9 @@
             <span v-show="bottomStatus !== 'loading'" :class="{ 'rotate': bottomStatus === 'drop' }"><img src="/static/img/上拉.png" style="width:30px;height:30px;"></span>
             <span v-show="bottomStatus === 'loading'"><img src="/static/img/ring.gif" style="width:30px;height:30px;"></span>
           </div>
+          <div class="loadmore__footer">
+            <span v-show="allLoaded">没有更多了</span>
+          </div>
     </mt-loadmore>
   </div>
 </template>
@@ -140,5 +143,10 @@ export default {
   height: 10px;
   background: url("/static/img/眼睛.png") no-repeat;
   background-size: 12px 12px;
+}
+.loadmore__footer {
+  font-size: 14px;
+  text-align: center;
+  padding: 10px;
 }
 </style>

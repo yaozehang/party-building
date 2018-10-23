@@ -148,8 +148,7 @@ export default {
       this.$router.push({path:'/cloudDetail',query:{data:data,id:id}})
     }
   },
-   mounted:
-   function(){
+   mounted(){
     this.getData(this.page);  
     this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top ;
   },
@@ -307,5 +306,6 @@ export default {
 .loadmore__footer {
   font-size: 14px;
   text-align: center;
+  padding: 10px;
 }
 </style>

@@ -10,22 +10,25 @@ const components = {
   news: () => import('@/views/news/news'),
   myLife: () => import('@/views/myLife/index'),
   newsDetail:() => import('@/views/news/newsDetail'),
-  study:() => import('@/views/myLife/study'),
-  partyMember: () => import('@/views/news/partyMember'),
+  study:() => import('@/views/news/news'),
+  partyMember: () => import('@/views/news/news'),
+  build: () => import('@/views/news/news'),
+  identity: () => import('@/views/news/news'),
   cloud: () => import('@/views/cloud/cloud'),
   cloudDetail: () => import('@/views/cloud/cloudDetail'),
-  activity:() => import('@/views/four/activity'),
+  activity:() => import('@/views/news/news'),
   anytimephoto: () => import('@/views/four/anytimephoto'),
-  anytimestudy: () => import('@/views/four/anytimestudy'),
-  systembuliding: () => import('@/views/four/systembuliding'),
+  anytimestudy: () => import('@/views/news/news'),
+  systembuliding: () => import('@/views/news/news'),
   information: () => import('@/views/user/information'),
   change: () => import('@/views/user/change'),
-  score: () => import('@/views/user/score')
+  score: () => import('@/views/user/score'),
+  scoreDetail: () => import('@/views/user/scoreDetail'),
 }
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path:'/',
@@ -157,6 +160,24 @@ export default new Router({
       }
     },
     {
+      path:'/build',
+      name:'build',
+      component:components.build,
+      meta:{
+        title:'党建一点通',
+        type:3
+      }
+    },
+    {
+      path:'/identity',
+      name:'identity',
+      component:components.identity,
+      meta:{
+        title:'党员亮身份',
+        type:5
+      }
+    },
+    {
       path:'/information',
       name:'information',
       component:components.information,
@@ -179,6 +200,16 @@ export default new Router({
       meta:{
         title:'个人量化积分'
       }
+    },
+    {
+      path:'/scoreDetail',
+      name:'scoreDetail',
+      component:components.scoreDetail,
+      meta:{
+        title:'积分明细'
+      }
     }
   ]
 })
+
+export default router;
