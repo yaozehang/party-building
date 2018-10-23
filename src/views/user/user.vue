@@ -33,7 +33,7 @@
         </router-link>
       </div>
       <div class="list-item">
-        <router-link to="/">
+        <router-link to="/editPassword">
           <div class="list-title">
             <img src="/static/img/xgmm.png">
             <p>修改密码</p>
@@ -42,7 +42,7 @@
         </router-link>
       </div>
       <div class="list-item">
-        <router-link to="/">
+        <router-link to="/pay">
           <div class="list-title">
             <img src="/static/img/icon3.png">
             <p>党费缴纳</p>

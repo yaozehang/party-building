@@ -59,6 +59,8 @@
 </template>
 
 <script>
+import { Indicator } from "mint-ui";
+
 export default {
   data() {
     return {
@@ -76,6 +78,10 @@ export default {
   },
   methods: {
     getData(page) {
+      Indicator.open({
+        text: '加载中...',
+        spinnerType: 'fading-circle'
+      });
       this.$axios.get("/forum/forumList.do", { page, rows: 10 }).then(res => {
         this.total = res.total
         let p = this.page*10
@@ -87,6 +93,7 @@ export default {
         } else {
           this.data = res.rows;
         }
+        Indicator.close();
       });
     },
      loadTop() {

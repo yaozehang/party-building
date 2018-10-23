@@ -3,7 +3,7 @@
       <div  @click='$router.go(-1)'>
         <img src="/static/img/返回.png">
       </div>
-      <p>{{this.$route.meta.title}}</p>
+      <div class="p">{{this.$route.meta.title}}</div>
   </div>
 </template>
 
@@ -24,7 +24,7 @@
   color: #fff;
   font-size: 18px;
   text-align: center;
-  p {
+  .p {
     padding-top: 0.24rem;
   }
   img {

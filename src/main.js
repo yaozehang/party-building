@@ -21,6 +21,7 @@ import { Loadmore } from 'mint-ui';
 
 import { Spinner } from 'mint-ui';
 
+
 Vue.component(Spinner.name, Spinner);
 
 Vue.component(Loadmore.name, Loadmore);

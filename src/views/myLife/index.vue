@@ -21,7 +21,7 @@
         <img src="/static/img/icon4.png">
         民主评议
       </router-link>
-      <router-link to="/">
+      <router-link to="/findorg">
         <img src="/static/img/icon5.png">
         流动党员找组织
       </router-link>

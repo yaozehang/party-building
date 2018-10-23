@@ -64,9 +64,9 @@
       <div class="item">
         <div>当前身份</div>
         <select v-model="userinfo.partyIdentity">
-          <option value=0 >积极分子</option>
-          <option value=1 >预备党员</option>
-          <option value=2 >党员</option>
+          <option value=积极分子 >积极分子</option>
+          <option value=预备党员 >预备党员</option>
+          <option value=党员 >党员</option>
         </select>
       </div>
     </form>

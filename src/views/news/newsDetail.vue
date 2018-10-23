@@ -19,14 +19,17 @@ export default {
   },
   methods: {
     getData() {
-      Indicator.open();
+      Indicator.open({
+        text: '加载中...',
+        spinnerType: 'fading-circle'
+      });
       this.$axios
         .get(`/news/newsContent.do?newsId=${this.$route.params.id}`)
         .then(res => {
           this.data = res.data;
           Indicator.close();
         });
-    }
+    },
   },
   created() {
     this.getData();

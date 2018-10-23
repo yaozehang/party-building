@@ -48,7 +48,7 @@
           <img src="/static/img/icon_06.png">
           <div>党员亮身份</div>
         </router-link>
-        <router-link to="/">
+        <router-link to="/today">
           <img src="/static/img/icon_02.png">
           <div>党史上的今天</div>
         </router-link>
@@ -74,6 +74,8 @@
 <script>
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import "swiper/dist/css/swiper.css";
+import { Indicator } from "mint-ui";
+
 
 var _this = {}
 
@@ -127,8 +129,13 @@ export default {
   },
   methods:{
     getData(){
+      Indicator.open({
+        text: '加载中...',
+        spinnerType: 'fading-circle'
+      });
       this.$axios.get('/carousel/carouselList.do').then(res => {
         this.swiperSlides = res.rows
+        Indicator.close();
       })
     },
     login(){

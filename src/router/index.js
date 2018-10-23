@@ -24,6 +24,10 @@ const components = {
   change: () => import('@/views/user/change'),
   score: () => import('@/views/user/score'),
   scoreDetail: () => import('@/views/user/scoreDetail'),
+  findorg: () => import('@/views/myLife/findorg'),
+  today: () => import('@/views/today'),
+  pay: () => import('@/views/user/pay'),
+  editPassword: () => import('@/views/user/editPassword')
 }
 
 Vue.use(Router)
@@ -207,6 +211,38 @@ const router = new Router({
       component:components.scoreDetail,
       meta:{
         title:'积分明细'
+      }
+    },
+    {
+      path:'/findorg',
+      name:'findorg',
+      component:components.findorg,
+      meta:{
+        title:'流动党员找组织'
+      }
+    },
+    {
+      path:'/today',
+      name:'today',
+      component:components.today,
+      meta:{
+        title:'党史上的今天'
+      }
+    },
+    {
+      path:'/pay',
+      name:'pay',
+      component:components.pay,
+      meta:{
+        title:'缴纳党费'
+      }
+    },
+    {
+      path:'/editPassword',
+      name:'editPassword',
+      component:components.editPassword,
+      meta:{
+        title:'修改密码'
       }
     }
   ]
