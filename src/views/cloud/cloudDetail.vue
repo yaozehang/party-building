@@ -84,8 +84,8 @@ export default {
   },
   methods: {
     getData(page) {
-      let id = this.$route.query.id;
-      this.data = this.$route.query.data;
+      let id = this.$route.params.id;
+      this.data = this.$route.params.data;
       this.$axios
         .get("/forum/forumCommentList.do", { page, forum_id: id })
         .then(res => {
@@ -130,7 +130,7 @@ export default {
       this.bottomStatus = status;
     },
     submit(){
-      let id = this.$route.query.id;
+      let id = this.$route.params.id;
       this.$axios.post('/forum/addComment.do',{forum_id:id ,comment:this.text}).then(res => {
         if(res.code == 1){
           Toast({

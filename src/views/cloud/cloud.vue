@@ -2,7 +2,7 @@
   <div class="color">
     <div class="container">
       <Header></Header>
-          <div ref="wrapper" :style="{ height: wrapperHeight + 'px' }" style="overflow:auto; margin-top:.86rem;">
+          <div ref="wrapper" :style="{ height: wrapperHeight + 'px' }" style="overflow:auto; margin-top:.86rem;-webkit-overflow-scrolling: touch">
           <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" @top-status-change="handleTopChange"  @bottom-status-change="handleBottomChange" :auto-fill="auto">
           <div class="cd-item" v-for="(item,index) in data" v-bind:key="index">
             <div class="cd-header clearfix">
@@ -152,12 +152,12 @@ export default {
       this.bottomStatus = status
     },
     response(data,id){
-      this.$router.push({path:'/cloudDetail',query:{data:data,id:id}})
+      this.$router.push({name:'cloudDetail',params:{data:data,id:id}})
     }
   },
    mounted(){
-    this.getData(this.page);  
     this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top ;
+    this.getData(this.page);  
   },
 };
 </script>

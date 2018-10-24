@@ -1,21 +1,19 @@
 <template>
-  <div class="msg w750">
-    <div class="msg-top">
-      <p>通知早知道</p>
-    </div>
-    <div style="overflow:auto">
-      <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" @top-status-change="handleTopChange">
-      <router-link :to="{name:'newsDetail',params:{id: item.newsId}}" class="msg-item" v-for="(item,index) in data" v-bind:key="index">
-        <img src="/static/img/tongzhi.png">
-        <div class="msg-content">
-          <div class="msg-title">
-            {{item.title}}
+  <div>
+    <Header></Header>
+    <div ref="wrapper" :style="{ height: wrapperHeight + 'px' }" style="overflow:auto;margin-top:.86rem">
+      <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" @top-status-change="handleTopChange" :auto-fill="auto">
+      <div  class="mem-item" v-for="(item,index) in member" v-bind:key="index">
+        <img :src="item.header">
+        <div class="mem-content">
+          <div class="mem-title">
+            {{item.username}}
           </div>
-          <div class="msg-time">
-            {{item.currentTime}}
+          <div class="mem-loc">
+            {{item.branchName}}
           </div>
         </div>
-      </router-link>
+      </div>
       <div slot="top" class="mint-loadmore-top">
             <span v-show="topStatus !== 'loading'" :class="{ 'rotate': topStatus === 'drop' }"><img src="/static/img/下拉.png" style="width:30px;height:30px;"></span>
             <span v-show="topStatus === 'loading'"><img src="/static/img/ring.gif" style="width:30px;height:30px;"></span>
@@ -32,44 +30,43 @@
 </template>
 
 <script>
-import { Indicator } from "mint-ui";
-
 export default {
   data() {
     return {
-      data: [],
-      page: 1,
+      member: [],
+      page: 2,
       topStatus: "",
       allLoaded: false,
       bottomStatus: "",
       wrapperHeight: 0,
-      total: 0
+      total: 0,
+      auto:false
     };
   },
   methods: {
     getData(page) {
-      Indicator.open({
-        text: '加载中...',
-        spinnerType: 'fading-circle'
-      });
+      this.member = this.$route.params.member;
+      let user_id = window.localStorage.getItem("token");
+      let select_branch = this.$route.params.select_branch;
       this.$axios
-        .get("/news/newsList.do", {
+        .get("/nationComment/userList.do", {
+          select_branch,
+          user_id,
           page,
-          rows: 10,
-          type: this.$route.meta.type
+          rows: 10
         })
         .then(res => {
+          console.log(res);
           this.total = res.total;
           let p = this.page * 10;
           if (p > this.total) {
             this.allLoaded = true;
           }
-          if (page > 1) {
-            this.data = [...this.data, ...res.rows];
+          if (page > 2) {
+            this.member = [...this.member, ...res.rows];
           } else {
-            this.data = res.rows;
+            this.member = res.rows;
           }
-          Indicator.close();
         });
     },
     loadTop() {
@@ -98,14 +95,15 @@ export default {
       this.topStatus = status;
     }
   },
-  created() {
+  mounted() {
+    this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top ;
     this.getData(this.page);
   }
 };
 </script>
 
 <style scoped lang="scss">
-.msg-top {
+.mem-top {
   height: 0.86rem;
   background-color: #c50206;
   color: #fff;
@@ -116,24 +114,27 @@ export default {
   }
 }
 
-.msg-item {
+.mem-item {
   display: flex;
   color: #666;
   padding: 0.3rem;
   border-bottom: 1px solid #ddd;
   img {
     padding: 0.4rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
   }
-  .msg-content {
+  .mem-content {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
   }
-  .msg-title {
+  .mem-title {
     font-size: 15px;
     line-height: 1.5;
   }
-  .msg-time {
+  .mem-loc {
     font-size: 12px;
   }
 }

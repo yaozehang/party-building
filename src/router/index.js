@@ -27,7 +27,11 @@ const components = {
   findorg: () => import('@/views/myLife/findorg'),
   today: () => import('@/views/today'),
   pay: () => import('@/views/user/pay'),
-  editPassword: () => import('@/views/user/editPassword')
+  editPassword: () => import('@/views/user/editPassword'),
+  lifeChoice: () => import('@/views/myLife/lifeChoice'),
+  personalsummary: () => import('@/views/myLife/personalsummary'),
+  discuss: () => import('@/views/myLife/discuss'),
+  members: () => import('@/views/myLife/members')
 }
 
 Vue.use(Router)
@@ -243,6 +247,38 @@ const router = new Router({
       component:components.editPassword,
       meta:{
         title:'修改密码'
+      }
+    },
+    {
+      path:'/lifeChoice',
+      name:'lifeChoice',
+      component:components.lifeChoice,
+      meta:{
+        title:'掌上组织生活'
+      }
+    },
+    {
+      path:'/personalsummary',
+      name:'personalsummary',
+      component:components.personalsummary,
+      meta:{
+        title:'个人总结'
+      }
+    },
+    {
+      path:'/discuss',
+      name:'discuss',
+      component:components.discuss,
+      meta:{
+        title:'民主评议'
+      }
+    },
+    {
+      path:'/members',
+      name:'members',
+      component:components.members,
+      meta:{
+        title:'参评党员'
       }
     }
   ]

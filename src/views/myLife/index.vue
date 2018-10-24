@@ -17,7 +17,7 @@
         <img src="/static/img/icon3.png">
         心得总结
       </router-link>
-      <router-link to="/">
+      <router-link to="/lifeChoice">
         <img src="/static/img/icon4.png">
         民主评议
       </router-link>
