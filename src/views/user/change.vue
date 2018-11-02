@@ -4,7 +4,7 @@
     <form class="bar" style="margin-top: .86rem;">
       <div class="item item-img">
         <div style="line-height:3">头像</div>
-        <div><img :src="userinfo.header"><input type="file" class="upload" :v-bind="picture"></div>
+        <label><img :src="imgUrl"><input type="file" class="upload" :v-model="imgUrl" @change="handleChange"></label>
       </div>
       <div class="item">
         <div>姓名</div>
@@ -79,35 +79,50 @@ export default {
   data() {
     return {
       userinfo: {},
-      picture:''
+      imgUrl:''
     };
   },
   methods: {
     getData() {
       this.$axios.get("/user/userInfo.do").then(res => {
         this.userinfo = res.data;
+        this.imgUrl = res.data.header
       });
     },
     submit() {
-      delete this.userinfo.idCard
-      if(this.picture != ""){
-        this.userinfo.header = this.picture
-      }else {
-        delete this.userinfo.header;
+      delete this.userinfo.idCard;
+      if(this.imgUrl == ""){
+        delete this.userinfo.header
       }
       this.$axios.post("/user/modifyInfo.do", this.userinfo).then(res => {
-        if(res.code = 1){
+        if ((res.code = 1)) {
           Toast({
-              message: res.msg,
-              duration: 1000
-            });
+            message: res.msg,
+            duration: 1000
+          });
         } else {
           Toast({
-              message: res.msg,
-              duration: 1000
-            });
+            message: res.msg,
+            duration: 1000
+          });
         }
       });
+    },
+    handleChange(e) {
+      let _this = this;
+      let file = e.target.files[0]; //取得所上传图片的所有信息
+      let reader = new FileReader(); //html5读文件
+      reader.readAsDataURL(file); //转BASE64
+      reader.onload = function() {
+        //读取完毕后调用接口
+        let url = reader.result.split(",")[1];
+        let formData = new FormData();
+        formData.append("myFile", url);
+        _this.$axios.post("/image/uploadBase64.do", formData).then(res => {
+          _this.userinfo.header = res.url;
+          _this.imgUrl = reader.result;
+        });
+      };
     }
   },
   created() {
@@ -158,13 +173,7 @@ button {
 .item-img {
   position: relative;
   .upload {
-    position: absolute;
-    top: 20px;
-    right: 40px;
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    opacity: 0;
+    display: none;
   }
 }
 </style>
